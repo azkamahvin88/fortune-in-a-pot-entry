@@ -3,7 +3,7 @@
 // Guard rails: the line must be a single line of 1-120 characters (counted in
 // Unicode code points), otherwise the program fails loudly before writing.
 
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const MAX_CHARS = 120;
@@ -33,4 +33,14 @@ const outDir = process.env.OUTPUT_DIR || "/output";
 mkdirSync(outDir, { recursive: true });
 const outFile = join(outDir, "entry.txt");
 writeFileSync(outFile, fortune + "\n", "utf8");
+// Read-back verification: the file on disk must be exactly the fortune line
+// plus one trailing newline. Fail loudly if anything differs.
+const written = readFileSync(outFile, "utf8");
+if (written !== fortune + "\n") {
+  console.error(
+    `Read-back mismatch in ${outFile}: expected ${fortune.length + 1} bytes ` +
+      `of line + newline, got ${written.length} bytes`,
+  );
+  process.exit(1);
+}
 console.log(`Wrote ${[...fortune].length}-character fortune to ${outFile}`);
