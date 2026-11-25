@@ -1,0 +1,1 @@
+{"description":"make.fun one-liner entry for 'Fortune in a Pot': a kind, funny fortune for a houseplant on a windowsill.","license":"MIT","main":"main.ts","name":"fortune-in-a-pot-entry","private":true,"scripts":{"start":"node main.ts"},"type":"module","version":"1.0.0"}
